@@ -96,13 +96,15 @@ spring:
       on-profile: prod
 
   datasource:
-    # Railway inyecta DATABASE_URL como postgres://user:pass@host:port/db
-    # Spring necesita jdbc:postgresql:// → usamos la variable directamente
-    # y dejamos que el driver la parsee con el prefijo correcto.
-    url: ${DATABASE_URL}
+    # Railway proporciona PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD
+    # además de DATABASE_URL. Usamos las individuales porque Spring necesita
+    # el prefijo jdbc:postgresql:// y DATABASE_URL no lo incluye.
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 5      # Los planes gratuitos tienen límite de conexiones
+      maximum-pool-size: 5
       connection-timeout: 30000
 
   jpa:
