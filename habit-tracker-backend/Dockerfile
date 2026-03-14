@@ -3,12 +3,10 @@ FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
-# Copiar pom.xml primero para cachear dependencias
-COPY pom.xml .
+COPY habit-tracker-backend/pom.xml .
 RUN mvn dependency:go-offline -B -q
 
-# Compilar
-COPY src ./src
+COPY habit-tracker-backend/src ./src
 RUN mvn package -DskipTests -B -q
 
 # ── Etapa 2: imagen de producción ─────────────────────────────────────────────
