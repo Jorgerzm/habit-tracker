@@ -12,7 +12,7 @@ Aplicación full-stack para el seguimiento de hábitos diarios. Proyecto de port
 
 ## Demo
 
-> **Live:** [habit-tracker.vercel.app](https://habit-tracker.vercel.app) · **API:** [habit-tracker-api.up.railway.app/actuator/health](https://habit-tracker-api.up.railway.app/actuator/health)
+> **Live:** [habit-tracker-jorgerzm.vercel.app](https://habit-tracker-jorgerzm.vercel.app) · **API:** [habit-tracker-production-e70b.up.railway.app/actuator/health](https://habit-tracker-production-e70b.up.railway.app/actuator/health)
 
 ---
 
