@@ -1,14 +1,14 @@
-# ── Etapa 1: compilación con Maven oficial ────────────────────────────────────
+# ── Etapa 1: compilación ──────────────────────────────────────────────────────
 FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
 # Copiar pom.xml primero para cachear dependencias
-COPY habit-tracker-backend/pom.xml .
+COPY pom.xml .
 RUN mvn dependency:go-offline -B -q
 
 # Compilar
-COPY habit-tracker-backend/src ./src
+COPY src ./src
 RUN mvn package -DskipTests -B -q
 
 # ── Etapa 2: imagen de producción ─────────────────────────────────────────────
