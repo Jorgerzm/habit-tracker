@@ -1,24 +1,15 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Dockerfile — habit-tracker-backend
-# Build context: raíz del repo (Railway lo ejecuta desde ahí)
-# ─────────────────────────────────────────────────────────────────────────────
-
-# ── Etapa 1: compilación ──────────────────────────────────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS builder
+# ── Etapa 1: compilación con Maven oficial ────────────────────────────────────
+FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
-# Copiar pom.xml y descargar dependencias (caché de capas)
+# Copiar pom.xml primero para cachear dependencias
 COPY habit-tracker-backend/pom.xml .
-COPY habit-tracker-backend/.mvn .mvn
-COPY habit-tracker-backend/mvnw .
-RUN chmod +x mvnw
+RUN mvn dependency:go-offline -B -q
 
-RUN ./mvnw dependency:go-offline -B -q || true
-
-# Compilar (sin tests: se ejecutan en CI)
+# Compilar
 COPY habit-tracker-backend/src ./src
-RUN ./mvnw package -DskipTests -B -q
+RUN mvn package -DskipTests -B -q
 
 # ── Etapa 2: imagen de producción ─────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine AS runtime
