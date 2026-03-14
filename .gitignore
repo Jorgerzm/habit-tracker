@@ -1,0 +1,26 @@
+# ── Sistema operativo ────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ── IDEs ─────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+.vscode/
+*.swp
+*.swo
+
+# ── Variables de entorno ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+.env*.local
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+# Los volúmenes de datos locales no se suben
+postgres-data/

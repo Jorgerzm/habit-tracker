@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Fuentes ────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+/* ── Variables CSS globales ─────────────────────────────────────────────── */
+:root {
+  --bg:           #faf9f6;
+  --surface:      #ffffff;
+  --surface-2:    #f5f3ee;
+  --border:       #e8e4db;
+  --text:         #1c1917;
+  --muted:        #78716c;
+  --accent:       #d97706;
+  --accent-light: #fef3c7;
+  --success:      #059669;
+  --success-light:#d1fae5;
+  --danger:       #dc2626;
+  --danger-light: #fee2e2;
+  --radius:       12px;
+  --radius-lg:    18px;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  ::-webkit-scrollbar       { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+}
+
+/* ── Componentes ────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Tarjetas */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.04);
+    padding: 1.5rem;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-200 hover:-translate-y-0.5;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.04);
+  }
+  .card-hover:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+  }
+
+  /* Botones */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2.5 rounded-xl text-sm font-medium
+           transition-all duration-150 cursor-pointer
+           disabled:opacity-40 disabled:cursor-not-allowed
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-amber-600 text-white hover:bg-amber-700
+           active:scale-95 focus-visible:ring-amber-500;
+    box-shadow: 0 1px 3px rgba(217,119,6,.3);
+  }
+  .btn-secondary {
+    @apply btn bg-white text-stone-700
+           border border-stone-200 hover:bg-stone-50
+           active:scale-95 focus-visible:ring-stone-400;
+  }
+  .btn-ghost {
+    @apply btn text-stone-600 hover:bg-stone-100
+           hover:text-stone-900 active:scale-95;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700
+           active:scale-95 focus-visible:ring-red-400;
+  }
+
+  /* Campos */
+  .label {
+    @apply block text-xs font-medium text-stone-500
+           uppercase tracking-widest mb-1.5;
+  }
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-xl text-sm bg-white
+           border border-stone-200
+           focus:outline-none focus:ring-2 focus:ring-amber-400
+           focus:border-transparent transition-shadow duration-150
+           placeholder:text-stone-400
+           disabled:bg-stone-50 disabled:cursor-not-allowed;
+  }
+  .input-error { @apply border-red-300 focus:ring-red-400; }
+
+  /* Celdas del calendario */
+  .day-cell {
+    @apply flex items-center justify-center w-9 h-9
+           rounded-lg text-xs font-medium
+           transition-all duration-150 select-none;
+  }
+  .day-cell--completed {
+    @apply bg-emerald-500 text-white cursor-pointer
+           hover:bg-emerald-600 active:scale-90 shadow-sm;
+  }
+  .day-cell--pending {
+    @apply bg-stone-100 text-stone-500 cursor-pointer
+           hover:bg-amber-100 hover:text-amber-700 active:scale-95;
+  }
+  .day-cell--failed  { @apply bg-red-50 text-red-300; }
+  .day-cell--future  { @apply text-stone-300; }
+  .day-cell--today   { @apply ring-2 ring-amber-500 ring-offset-1; }
+  .day-cell--empty   { @apply pointer-events-none; }
+
+  /* Modal */
+  .modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background: rgba(28,25,23,.45);
+    backdrop-filter: blur(4px);
+    animation: fadeIn .15s ease-out;
+  }
+  .modal-panel {
+    @apply card w-full max-w-md;
+    animation: slideUp .2s ease-out;
+  }
+
+  /* Tags de frecuencia */
+  .freq-tag {
+    @apply inline-flex items-center gap-1 px-2 py-0.5
+           rounded-full text-xs font-medium;
+  }
+  .freq-tag--daily   { @apply bg-blue-100 text-blue-700; }
+  .freq-tag--weekly  { @apply bg-violet-100 text-violet-700; }
+  .freq-tag--custom  { @apply bg-orange-100 text-orange-700; }
+}
+
+/* ── Animaciones ────────────────────────────────────────────────────────── */
+@keyframes fadeIn  {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.18); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-pop  { animation: popIn .25s ease-out; }
+.spinner      { @apply rounded-full border-2 border-current border-t-transparent;
+                animation: spin .7s linear infinite; }

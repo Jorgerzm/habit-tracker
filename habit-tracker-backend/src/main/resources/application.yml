@@ -1,0 +1,129 @@
+# =============================================
+# PERFIL BASE (compartido por todos)
+# =============================================
+spring:
+  application:
+    name: habit-tracker-backend
+
+  # Jackson: serializar LocalDate como array [2024,1,15] → "2024-01-15"
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# Actuator: solo exponer el endpoint de health (no info, metrics, etc.)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# =============================================
+# PERFIL DE DESARROLLO (activo por defecto)
+# =============================================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/habittracker_dev
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update       # Crea/actualiza tablas automáticamente en dev
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  jwt:
+    secret: devSecretKeyForHabitTrackerApp_ChangeInProduction_AtLeast256Bits!!
+    expiration-ms: 86400000  # 24 horas en milisegundos
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.habittracker: DEBUG
+    org.springframework.security: DEBUG
+
+# =============================================
+# PERFIL DE TEST (usa H2 en memoria)
+# =============================================
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:habittracker_test;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  jwt:
+    secret: testSecretKeyForHabitTrackerApp_OnlyForTests_AtLeast256Bits!!
+    expiration-ms: 3600000  # 1 hora para tests
+
+# =============================================
+# PERFIL DE PRODUCCIÓN (Railway / Render)
+# =============================================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # Railway inyecta DATABASE_URL como postgres://user:pass@host:port/db
+    # Spring necesita jdbc:postgresql:// → usamos la variable directamente
+    # y dejamos que el driver la parsee con el prefijo correcto.
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5      # Los planes gratuitos tienen límite de conexiones
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update          # update en prod inicial; cambiar a validate tras estabilizar
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}       # Variable de entorno: mínimo 64 caracteres aleatorios
+    expiration-ms: 86400000     # 24 horas
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+
+server:
+  port: ${PORT:8080}            # Railway/Render inyectan $PORT dinámicamente
+
+logging:
+  level:
+    com.habittracker: INFO
+    org.springframework.security: WARN
