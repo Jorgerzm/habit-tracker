@@ -49,7 +49,7 @@ COPY src ./src
 
 ---
 
-## 2. Java 25 no existe
+## 2. Java 25 no está disponible en las imágenes de Docker Hub
 
 **El error:**
 ```
@@ -57,10 +57,10 @@ COPY src ./src
 ```
 
 **Por qué ocurrió:**  
-El `pom.xml` tenía `<java.version>25</java.version>`. Java 25 no es una versión estable — es una versión en desarrollo que no existe en las imágenes de Maven de Docker Hub.
+El `pom.xml` tenía `<java.version>25</java.version>`. Java 25 existe como versión de acceso anticipado (Early Access), pero las imágenes oficiales de Maven en Docker Hub solo empaquetan versiones LTS estables (8, 11, 17, 21). La imagen `maven:3.9-eclipse-temurin-21-alpine` que usa el Dockerfile incluye Java 21, que no puede compilar código configurado para Java 25.
 
 **La solución:**  
-Cambiar a Java 21, la última versión LTS:
+Bajar el target de compilación a Java 21, la última versión LTS con soporte oficial en las imágenes de Maven:
 
 ```xml
 <properties>
