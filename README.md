@@ -96,7 +96,7 @@ toggleHabitLog() → publishEvent(HabitCompletedEvent)
 
 ```
 habit-tracker/
-├── habit-tracker-backend/      Spring Boot (Java 25)
+├── habit-tracker-backend/      Spring Boot (Java 21)
 │   └── src/main/java/com/habittracker/
 │       ├── application/        Controllers + DTOs
 │       ├── domain/
