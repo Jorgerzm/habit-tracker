@@ -2,17 +2,11 @@
 
 Aplicación full-stack para el seguimiento de hábitos diarios. Proyecto de portfolio que demuestra el uso de patrones de diseño clásicos (Strategy, Factory, Observer) en un contexto real con Java + Spring Boot y React.
 
-![Java](https://img.shields.io/badge/Java-25-orange?style=flat-square&logo=openjdk)
+![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.4-brightgreen?style=flat-square&logo=springboot)
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)
 ![Tests](https://img.shields.io/badge/tests-backend_%2B_frontend-success?style=flat-square)
-
----
-
-## Demo
-
-> **Live:** [habit-tracker-jorgerzm.vercel.app](https://habit-tracker-jorgerzm.vercel.app) · **API:** [habit-tracker-production-e70b.up.railway.app/actuator/health](https://habit-tracker-production-e70b.up.railway.app/actuator/health)
 
 ---
 
